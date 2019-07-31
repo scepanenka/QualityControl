@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Organizations]
 (
-	[IdTOR] INT NOT NULL PRIMARY KEY, 
-    [NameTOR] NCHAR(100) NULL
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(100) NULL 
 )

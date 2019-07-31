@@ -1,5 +1,7 @@
-﻿CREATE TABLE [dbo].[Empoloyers]
+﻿CREATE TABLE [dbo].[Employers]
 (
-	[IdEmployer] INT NOT NULL PRIMARY KEY, 
-    [Name] NCHAR(10) NULL
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Surname] NVARCHAR(100) NOT NULL, 
+    [Name] NVARCHAR(100) NOT NULL, 
+    [Patronymic] NVARCHAR(100) NULL
 )
