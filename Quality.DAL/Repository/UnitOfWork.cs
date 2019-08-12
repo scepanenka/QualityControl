@@ -25,6 +25,26 @@ namespace Quality.DAL.Repository
             }
         }
 
+        public IRepository<Employer> EmployerRepository
+        {
+            get
+            {
+                if (_employersRepository == null)
+                    _employersRepository = new Repository<Employer>(_context);
+                return _employersRepository;
+            }
+        }
+
+        public IRepository<Organization> OrganizationRepository
+        {
+            get
+            {
+                if (_orgnizationsRepository == null)
+                    _orgnizationsRepository = new Repository<Organization>(_context);
+                return _orgnizationsRepository;
+            }
+        }
+
         public UnitOfWork(DbContext context)
         {
             _context = context;
