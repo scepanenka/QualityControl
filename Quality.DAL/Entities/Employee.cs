@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Quality.DAL.Entities
 {
-    public class Employer
+    public class Employee
     {
-        public Employer()
+        public Employee()
         {
             Orders = new HashSet<Order>();
         }

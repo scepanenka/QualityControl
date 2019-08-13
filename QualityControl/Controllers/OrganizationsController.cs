@@ -9,22 +9,22 @@ using Quality.DAL.Entities;
 
 namespace QualityControl.Controllers
 {
-    public class EmployersController : Controller
+    public class OrganizationsController : Controller
     {
         private readonly TestDBContext _context;
 
-        public EmployersController(TestDBContext context)
+        public OrganizationsController(TestDBContext context)
         {
             _context = context;
         }
 
-        // GET: Employers
+        // GET: Organizations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employers.ToListAsync());
+            return View(await _context.Organizations.ToListAsync());
         }
 
-        // GET: Employers/Details/5
+        // GET: Organizations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employer = await _context.Employers
+            var organization = await _context.Organizations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employer == null)
+            if (organization == null)
             {
                 return NotFound();
             }
 
-            return View(employer);
+            return View(organization);
         }
 
-        // GET: Employers/Create
+        // GET: Organizations/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Employers/Create
+        // POST: Organizations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic")] Employer employer)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Organization organization)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employer);
+                _context.Add(organization);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employer);
+            return View(organization);
         }
 
-        // GET: Employers/Edit/5
+        // GET: Organizations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employer = await _context.Employers.FindAsync(id);
-            if (employer == null)
+            var organization = await _context.Organizations.FindAsync(id);
+            if (organization == null)
             {
                 return NotFound();
             }
-            return View(employer);
+            return View(organization);
         }
 
-        // POST: Employers/Edit/5
+        // POST: Organizations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic")] Employer employer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Organization organization)
         {
-            if (id != employer.Id)
+            if (id != organization.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(employer);
+                    _context.Update(organization);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployerExists(employer.Id))
+                    if (!OrganizationExists(organization.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employer);
+            return View(organization);
         }
 
-        // GET: Employers/Delete/5
+        // GET: Organizations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employer = await _context.Employers
+            var organization = await _context.Organizations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employer == null)
+            if (organization == null)
             {
                 return NotFound();
             }
 
-            return View(employer);
+            return View(organization);
         }
 
-        // POST: Employers/Delete/5
+        // POST: Organizations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employer = await _context.Employers.FindAsync(id);
-            _context.Employers.Remove(employer);
+            var organization = await _context.Organizations.FindAsync(id);
+            _context.Organizations.Remove(organization);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployerExists(int id)
+        private bool OrganizationExists(int id)
         {
-            return _context.Employers.Any(e => e.Id == id);
+            return _context.Organizations.Any(e => e.Id == id);
         }
     }
 }

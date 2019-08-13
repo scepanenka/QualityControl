@@ -40,7 +40,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Empoloye]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="IdEmployer" />
+    <Property Name="NewName" Value="IdEmployee" />
   </Operation>
   <Operation Name="Rename Refactor" Key="3ce48422-5a3a-4aae-a757-f8159492da18" ChangeDateTime="07/19/2019 08:14:40">
     <Property Name="ElementName" Value="[dbo].[Order]" />
@@ -75,7 +75,7 @@
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Orders]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="IdEmployer" />
+    <Property Name="NewName" Value="IdEmployee" />
   </Operation>
   <Operation Name="Rename Refactor" Key="1a1bc42f-a612-4ee2-b0f1-ac07cb67d406" ChangeDateTime="07/19/2019 11:04:32">
     <Property Name="ElementName" Value="[dbo].[Organizations].[IdTOR]" />
@@ -134,7 +134,7 @@
     <Property Name="NewName" Value="Id" />
   </Operation>
   <Operation Name="Rename Refactor" Key="d5d5b56e-bceb-4c8b-99af-35d758581f6f" ChangeDateTime="07/19/2019 11:34:31">
-    <Property Name="ElementName" Value="[dbo].[Empoloyers].[IdEmployer]" />
+    <Property Name="ElementName" Value="[dbo].[Empoloyers].[IdEmployee]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
     <Property Name="ParentElementName" Value="[dbo].[Empoloyers]" />
     <Property Name="ParentElementType" Value="SqlTable" />
@@ -152,6 +152,27 @@
     <Property Name="ElementType" Value="SqlTable" />
     <Property Name="ParentElementName" Value="[dbo]" />
     <Property Name="ParentElementType" Value="SqlSchema" />
-    <Property Name="NewName" Value="[Employers]" />
+    <Property Name="NewName" Value="[Employees]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="412e4c7c-4f5a-41da-86bc-32a09cfa30a7" ChangeDateTime="08/13/2019 05:27:27">
+    <Property Name="ElementName" Value="[dbo].[Employees]" />
+    <Property Name="ElementType" Value="SqlTable" />
+    <Property Name="ParentElementName" Value="[dbo]" />
+    <Property Name="ParentElementType" Value="SqlSchema" />
+    <Property Name="NewName" Value="[Employees]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="204ec8ad-7368-47c6-b0d8-ed7698fcf155" ChangeDateTime="08/13/2019 05:34:15">
+    <Property Name="ElementName" Value="[dbo].[FK_Orders_Employees]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Orders_Employees]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="68aca1a5-7743-4a1a-8c59-20835e76975d" ChangeDateTime="08/13/2019 05:34:25">
+    <Property Name="ElementName" Value="[dbo].[Orders].[IdEmployee]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IdEmployee]" />
   </Operation>
 </Operations>

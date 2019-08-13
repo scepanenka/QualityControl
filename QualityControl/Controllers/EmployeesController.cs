@@ -9,23 +9,22 @@ using Quality.DAL.Entities;
 
 namespace QualityControl.Controllers
 {
-    public class OrdersController : Controller
+    public class EmployeesController : Controller
     {
         private readonly TestDBContext _context;
 
-        public OrdersController(TestDBContext context)
+        public EmployeesController(TestDBContext context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var testDBContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
-            return View(await testDBContext.ToListAsync());
+            return View(await _context.Employees.ToListAsync());
         }
 
-        // GET: Orders/Details/5
+        // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,45 +32,39 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+            var Employee = await _context.Employees
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            if (Employee == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(Employee);
         }
 
-        // GET: Orders/Create
+        // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name");
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id");
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Employees/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdOrganization,IdEmployee,Client")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic")] Employee Employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(Employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(Employee);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,24 +72,22 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
+            var Employee = await _context.Employees.FindAsync(id);
+            if (Employee == null)
             {
                 return NotFound();
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(Employee);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Employees/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdOrganization,IdEmployee,Client")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic")] Employee Employee)
         {
-            if (id != order.Id)
+            if (id != Employee.Id)
             {
                 return NotFound();
             }
@@ -105,12 +96,12 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(Employee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!EmployeeExists(Employee.Id))
                     {
                         return NotFound();
                     }
@@ -121,12 +112,10 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(Employee);
         }
 
-        // GET: Orders/Delete/5
+        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,32 +123,30 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+            var Employee = await _context.Employees
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            if (Employee == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(Employee);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
+            var Employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(Employee);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private bool EmployeeExists(int id)
         {
-            return _context.Orders.Any(e => e.Id == id);
+            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }

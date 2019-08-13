@@ -12,7 +12,7 @@ namespace Quality.DAL.Entities
             
         }
 
-        public virtual DbSet<Employer> Employers { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
 
@@ -27,7 +27,7 @@ namespace Quality.DAL.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Employer>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -48,10 +48,10 @@ namespace Quality.DAL.Entities
 
                 entity.Property(e => e.Client).HasMaxLength(100);
 
-                entity.HasOne(d => d.Employer)
+                entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.IdEmployer)
-                    .HasConstraintName("FK_Orders_Employers");
+                    .HasForeignKey(d => d.IdEmployee)
+                    .HasConstraintName("FK_Orders_Employees");
 
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.Orders)
