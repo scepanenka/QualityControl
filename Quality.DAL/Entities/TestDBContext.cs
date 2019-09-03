@@ -16,6 +16,8 @@ namespace Quality.DAL.Entities
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
 
+        public virtual DbSet<Position> Positions { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
