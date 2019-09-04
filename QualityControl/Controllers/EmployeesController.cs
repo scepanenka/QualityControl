@@ -11,9 +11,9 @@ namespace QualityControl.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly TestDBContext _context;
+        private readonly TestDbContext _context;
 
-        public EmployeesController(TestDBContext context)
+        public EmployeesController(TestDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,8 @@ namespace QualityControl.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            var testDbContext = _context.Employees.Include(e => e.Position);
+            return View(await testDbContext.ToListAsync());
         }
 
         // GET: Employees/Details/5
@@ -32,19 +33,21 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var Employee = await _context.Employees
+            var employee = await _context.Employees
+                .Include(e => e.Position)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (Employee == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(Employee);
+            return View(employee);
         }
 
         // GET: Employees/Create
         public IActionResult Create()
         {
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name");
             return View();
         }
 
@@ -53,15 +56,16 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic")] Employee Employee)
+        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Employee);
+                _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(Employee);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
+            return View(employee);
         }
 
         // GET: Employees/Edit/5
@@ -72,12 +76,13 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var Employee = await _context.Employees.FindAsync(id);
-            if (Employee == null)
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null)
             {
                 return NotFound();
             }
-            return View(Employee);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            return View(employee);
         }
 
         // POST: Employees/Edit/5
@@ -85,9 +90,9 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic")] Employee Employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
         {
-            if (id != Employee.Id)
+            if (id != employee.Id)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(Employee);
+                    _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(Employee.Id))
+                    if (!EmployeeExists(employee.Id))
                     {
                         return NotFound();
                     }
@@ -112,7 +117,8 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(Employee);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            return View(employee);
         }
 
         // GET: Employees/Delete/5
@@ -123,14 +129,15 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var Employee = await _context.Employees
+            var employee = await _context.Employees
+                .Include(e => e.Position)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (Employee == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(Employee);
+            return View(employee);
         }
 
         // POST: Employees/Delete/5
@@ -138,8 +145,8 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var Employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(Employee);
+            var employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

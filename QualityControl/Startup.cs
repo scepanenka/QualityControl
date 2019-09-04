@@ -28,7 +28,7 @@ namespace QualityControl
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<TestDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:QualityDB"]));
+            services.AddDbContext<TestDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:QualityDB"]));
            // services.AddDbContext<TestDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Data Source=192.168.85.241;Initial Catalog=TestDB;User ID=sa;Password=Qwerty12;")));            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             

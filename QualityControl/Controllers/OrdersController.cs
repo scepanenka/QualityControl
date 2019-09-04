@@ -11,9 +11,9 @@ namespace QualityControl.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly TestDBContext _context;
+        private readonly TestDbContext _context;
 
-        public OrdersController(TestDBContext context)
+        public OrdersController(TestDbContext context)
         {
             _context = context;
         }
@@ -21,8 +21,8 @@ namespace QualityControl.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var testDBContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
-            return View(await testDBContext.ToListAsync());
+            var testDbContext = _context.Orders.Include(o => o.IdEmployeeNavigation).Include(o => o.IdOrganizationNavigation);
+            return View(await testDbContext.ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -34,8 +34,8 @@ namespace QualityControl.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+                .Include(o => o.IdEmployeeNavigation)
+                .Include(o => o.IdOrganizationNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -135,8 +135,8 @@ namespace QualityControl.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+                .Include(o => o.IdEmployeeNavigation)
+                .Include(o => o.IdOrganizationNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {

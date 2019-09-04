@@ -12,7 +12,7 @@ namespace Quality.DAL.Repository
         private DbContext _context;
         private bool _disposed;
         private IRepository<Order> _ordersRepository;
-        private IRepository<Employee> _EmployeesRepository;
+        private IRepository<Employee> _employeesRepository;
         private IRepository<Organization> _orgnizationsRepository;
 
         public IRepository<Order> OrdersRepository
@@ -29,9 +29,9 @@ namespace Quality.DAL.Repository
         {
             get
             {
-                if (_EmployeesRepository == null)
-                    _EmployeesRepository = new Repository<Employee>(_context);
-                return _EmployeesRepository;
+                if (_employeesRepository == null)
+                    _employeesRepository = new Repository<Employee>(_context);
+                return _employeesRepository;
             }
         }
 
