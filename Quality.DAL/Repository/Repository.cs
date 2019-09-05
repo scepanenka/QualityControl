@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.Repository
 {
@@ -43,6 +44,16 @@ namespace DataAccess.Repository
         public void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _context.Set<T>().FindAsync(id);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace QualityControl.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly TestDbContext _context;
+        private readonly QualityContext _context;
 
-        public OrdersController(TestDbContext context)
+        public OrdersController(QualityContext context)
         {
             _context = context;
         }
@@ -21,8 +21,7 @@ namespace QualityControl.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var testDbContext = _context.Orders.Include(o => o.IdEmployeeNavigation).Include(o => o.IdOrganizationNavigation);
-            return View(await testDbContext.ToListAsync());
+            return View(await _context.Orders.ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -34,8 +33,6 @@ namespace QualityControl.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.IdEmployeeNavigation)
-                .Include(o => o.IdOrganizationNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -48,8 +45,6 @@ namespace QualityControl.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name");
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id");
             return View();
         }
 
@@ -66,8 +61,6 @@ namespace QualityControl.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
             return View(order);
         }
 
@@ -84,8 +77,6 @@ namespace QualityControl.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
             return View(order);
         }
 
@@ -121,8 +112,6 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
             return View(order);
         }
 
@@ -135,8 +124,6 @@ namespace QualityControl.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.IdEmployeeNavigation)
-                .Include(o => o.IdOrganizationNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {

@@ -11,9 +11,9 @@ namespace QualityControl.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly TestDbContext _context;
+        private readonly QualityContext _context;
 
-        public EmployeesController(TestDbContext context)
+        public EmployeesController(QualityContext context)
         {
             _context = context;
         }
@@ -21,8 +21,8 @@ namespace QualityControl.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var testDbContext = _context.Employees.Include(e => e.Position);
-            return View(await testDbContext.ToListAsync());
+            var qualityContext = _context.Employees.Include(e => e.Position);
+            return View(await qualityContext.ToListAsync());
         }
 
         // GET: Employees/Details/5
@@ -64,7 +64,7 @@ namespace QualityControl.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
             return View(employee);
         }
 
@@ -81,7 +81,7 @@ namespace QualityControl.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
             return View(employee);
         }
 

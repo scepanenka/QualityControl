@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Quality.DAL.Entities
 {
-    public class TestDbContext : DbContext
+    public class QualityContext : DbContext
     {        
-        public TestDbContext(DbContextOptions config) : base(config)
+        public QualityContext(DbContextOptions config) : base(config)
         {
             
         }
@@ -15,7 +15,6 @@ namespace Quality.DAL.Entities
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Organization> Organizations { get; set; }
-
         public virtual DbSet<Position> Positions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

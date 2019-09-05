@@ -10,7 +10,7 @@ namespace Quality.DAL.Entities
         public int? IdEmployee { get; set; }
         public string Client { get; set; }
 
-        public Employee IdEmployeeNavigation { get; set; }
-        public Organization IdOrganizationNavigation { get; set; }
+        public Employee Employee { get; set; }
+        public Organization Organization { get; set; }
     }
 }

@@ -6,22 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
 
 namespace QualityControl.Controllers
 {
     public class PositionsController : Controller
     {
-        private readonly TestDbContext _context;
+        private readonly QualityContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
-        public PositionsController(TestDbContext context)
+        public PositionsController(QualityContext context)
         {
             _context = context;
+            _unitOfWork = new UnitOfWork(_context);
         }
 
         // GET: Positions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Positions.ToListAsync());
+            return View(await _unitOfWork.PositionRepository.GetAllAsync());
         }
 
         // GET: Positions/Details/5
@@ -32,8 +35,8 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
+                
             if (position == null)
             {
                 return NotFound();
@@ -53,12 +56,12 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Position position)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Position position)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(position);
-                await _context.SaveChangesAsync();
+                _unitOfWork.PositionRepository.Insert(position);
+                await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(position);
@@ -72,7 +75,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions.FindAsync(id);
+            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
             if (position == null)
             {
                 return NotFound();
@@ -96,8 +99,8 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(position);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.PositionRepository.Update(position);
+                    await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +126,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
             if (position == null)
             {
                 return NotFound();
@@ -138,9 +140,9 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var position = await _context.Positions.FindAsync(id);
-            _context.Positions.Remove(position);
-            await _context.SaveChangesAsync();
+            var position = await _unitOfWork.PositionRepository.GetByIdAsync(id);
+            _unitOfWork.PositionRepository.Delete(position);
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 

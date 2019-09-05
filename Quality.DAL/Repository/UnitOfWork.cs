@@ -4,6 +4,7 @@ using Quality.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Quality.DAL.Repository
 {
@@ -14,6 +15,7 @@ namespace Quality.DAL.Repository
         private IRepository<Order> _ordersRepository;
         private IRepository<Employee> _employeesRepository;
         private IRepository<Organization> _orgnizationsRepository;
+        private IRepository<Position> _positionsRepository;
 
         public IRepository<Order> OrdersRepository
         {
@@ -45,14 +47,24 @@ namespace Quality.DAL.Repository
             }
         }
 
+        public IRepository<Position> PositionRepository
+        {
+            get
+            {
+                if (_positionsRepository == null)
+                    _positionsRepository = new Repository<Position>(_context);
+                return _positionsRepository;
+            }
+        }
+
         public UnitOfWork(DbContext context)
         {
             _context = context;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public virtual void Dispose(bool disposing)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Quality.DAL.Entities
 {
@@ -10,6 +11,7 @@ namespace Quality.DAL.Entities
             Orders = new HashSet<Order>();
         }
 
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
 

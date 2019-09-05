@@ -6,22 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
 
 namespace QualityControl.Controllers
 {
     public class OrganizationsController : Controller
     {
-        private readonly TestDbContext _context;
+        private readonly QualityContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
-        public OrganizationsController(TestDbContext context)
+        public OrganizationsController(QualityContext context)
         {
             _context = context;
+            _unitOfWork = new UnitOfWork(_context);
         }
 
         // GET: Organizations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Organizations.ToListAsync());
+            return View(await _unitOfWork.OrganizationRepository.GetAllAsync());
         }
 
         // GET: Organizations/Details/5
