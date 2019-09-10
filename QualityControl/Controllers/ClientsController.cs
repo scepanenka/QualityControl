@@ -9,23 +9,22 @@ using Quality.DAL.Entities;
 
 namespace QualityControl.Controllers
 {
-    public class OrdersController : Controller
+    public class ClientsController : Controller
     {
         private readonly QualityContext _context;
 
-        public OrdersController(QualityContext context)
+        public ClientsController(QualityContext context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Clients
         public async Task<IActionResult> Index()
         {
-            var qualityContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
-            return View(await qualityContext.ToListAsync());
+            return View(await _context.Clients.ToListAsync());
         }
 
-        // GET: Orders/Details/5
+        // GET: Clients/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -33,46 +32,40 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+            var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(client);
         }
 
-        // GET: Orders/Create
+        // GET: Clients/Create
         public IActionResult Create()
         {
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id");
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id");
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Clients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdOrganization,IdEmployee,DateReceipt,DateExecution,Number")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic,Address,PersonalNumber,PhoneNumber,TypeClient,Unn,BothDate,Information")] Client client)
         {
             if (ModelState.IsValid)
             {
-                order.Id = Guid.NewGuid();
-                _context.Add(order);
+                client.Id = Guid.NewGuid();
+                _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(client);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -80,24 +73,22 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(client);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Clients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,IdOrganization,IdEmployee,DateReceipt,DateExecution,Number")] Order order)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Surname,Name,Patronymic,Address,PersonalNumber,PhoneNumber,TypeClient,Unn,BothDate,Information")] Client client)
         {
-            if (id != order.Id)
+            if (id != client.Id)
             {
                 return NotFound();
             }
@@ -106,12 +97,12 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(client);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!ClientExists(client.Id))
                     {
                         return NotFound();
                     }
@@ -122,12 +113,10 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
-            return View(order);
+            return View(client);
         }
 
-        // GET: Orders/Delete/5
+        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -135,32 +124,30 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Employee)
-                .Include(o => o.Organization)
+            var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(client);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
+            var client = await _context.Clients.FindAsync(id);
+            _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(Guid id)
+        private bool ClientExists(Guid id)
         {
-            return _context.Orders.Any(e => e.Id == id);
+            return _context.Clients.Any(e => e.Id == id);
         }
     }
 }

@@ -1,0 +1,78 @@
+﻿@model Quality.DAL.Entities.Client
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Client</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Patronymic)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeClient)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TypeClient)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Unn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Unn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BothDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BothDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Information)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Information)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -63,6 +63,8 @@
     <Build Include="Organizations.sql" />
     <Build Include="Empoloyees.sql" />
     <Build Include="Positions.sql" />
+    <Build Include="Clients.sql" />
+    <Build Include="ClientOrders.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TestDB.refactorlog" />

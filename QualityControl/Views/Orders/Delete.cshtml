@@ -12,22 +12,34 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.IdOrganization)
+            @Html.DisplayNameFor(model => model.DateReceipt)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdOrganization)
+            @Html.DisplayFor(model => model.DateReceipt)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IdEmployee)
+            @Html.DisplayNameFor(model => model.DateExecution)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdEmployee)
+            @Html.DisplayFor(model => model.DateExecution)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Client)
+            @Html.DisplayNameFor(model => model.Number)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Client)
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Organization)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Organization.Id)
         </dd>
     </dl>
     
