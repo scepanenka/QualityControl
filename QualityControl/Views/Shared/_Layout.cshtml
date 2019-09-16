@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
                     <li><a asp-area="" asp-controller="Positions" asp-action="Index">Positions</a></li>
                     <li><a asp-area="" asp-controller="Organizations" asp-action="Index">Organizations</a></li>
                     <li><a asp-area="" asp-controller="Orders" asp-action="Index">Orders</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Clients" asp-action="Index">Clients</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
             </div>
@@ -47,7 +47,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="footer mt-auto py-3">
             <p>&copy; 2019 - QualityControl</p>
         </footer>
     </div>

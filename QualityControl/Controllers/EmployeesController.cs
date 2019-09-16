@@ -41,7 +41,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            return View(employee);
+            return PartialView(employee);
         }
 
         // GET: Employees/Create
