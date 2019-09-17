@@ -15,10 +15,9 @@ namespace QualityControl.Controllers
         private readonly QualityContext _context;
         private readonly UnitOfWork _unitOfWork;
 
-        public PositionsController(QualityContext context)
+        public PositionsController(UnitOfWork unitOfWork)
         {
-            _context = context;
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Positions
@@ -56,7 +55,7 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Position position)
+        public async Task<IActionResult> Create(Position position)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +87,7 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Position position)
+        public async Task<IActionResult> Edit(int id, Position position)
         {
             if (id != position.Id)
             {

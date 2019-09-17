@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
 
 namespace QualityControl
 {
     public class Startup
     {
+        private QualityContext _qualityContext;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,7 +32,7 @@ namespace QualityControl
 
             services.AddDbContext<QualityContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:QualityDB"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+            services.AddTransient<UnitOfWork>(x=> new UnitOfWork(x.GetRequiredService<QualityContext>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

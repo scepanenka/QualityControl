@@ -1,0 +1,66 @@
+[33mcommit f8f42510d7d191d48cb37200d60b29750667dc6d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Сцепаненка Аляксандр Юр'евіч <Stalex@Grodno>
+Date:   Mon Sep 16 16:34:31 2019 +0300
+
+    refactor: change client model
+
+[33mcommit 2875e063019643434a3dff2c3ee574aaf7682032[m
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Wed Sep 11 14:42:45 2019 +0300
+
+    feat: add tables ObjectTypes, Objects, ObjectsOrders and foreigen keys
+
+[33mcommit 1558f2c3e7b3e76976d2c1ae66da98de6812d3f5[m[33m ([m[1;32mUpdateModel[m[33m)[m
+Author: Сцепаненка Аляксандр Юр'евіч <D:\Programs\TheBatPortable\Data\Mail>
+Date:   Tue Sep 10 16:12:32 2019 +0300
+
+    feat: add Orders, ClientOrders
+
+[33mcommit 765619de0b22f4cc817e7dff7a04b16bb7bddc56[m[33m ([m[1;31morigin/UpdateModel[m[33m)[m
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Thu Sep 5 16:42:36 2019 +0300
+
+    feat: use repository for positionsController methods
+
+[33mcommit 53b0bfd2280b009b2a6f7499d0d317009a45077e[m
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Wed Sep 4 17:07:58 2019 +0300
+
+    feat: add Position
+
+[33mcommit cef5855f7f5a340a5b13727ba51d9552717ea09d[m[33m ([m[1;32midentity[m[33m)[m
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Tue Sep 3 16:36:41 2019 +0300
+
+    feat: add positions
+
+[33mcommit e921a65293903dff569477c6ef152952b8cde09e[m
+Merge: 2eb34d7 c3fbed9
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Tue Aug 13 15:08:22 2019 +0300
+
+    test merge
+
+[33mcommit 2eb34d784a2d4ac0ab654b023f7be93abf33a992[m
+Author: Сцепаненка Аляксандр Юр'евіч <stalex@dbadmin.Grodno>
+Date:   Tue Aug 13 14:49:59 2019 +0300
+
+    refactor: change Employer to Employee
+
+[33mcommit c3fbed976e840616f83c9bea584b0aaf3e65697e[m
+Author: scepanenka <scepanenka@gmail.com>
+Date:   Mon Aug 12 11:40:12 2019 +0300
+
+    feat: create controllers and views
+
+[33mcommit 86b4cb27ae60815227f2e5abcdf51f3cc9ac215e[m
+Author: scepanenka <scepanenka@gmail.com>
+Date:   Wed Jul 31 15:24:53 2019 +0300
+
+    feat: inject DbContext
+
+[33mcommit 95369c16b00d843daefa355f469d700458a67f7c[m
+Author: scepanenka <scepanenka@gmail.com>
+Date:   Fri Jul 19 13:53:42 2019 +0300
+
+    init: create database project

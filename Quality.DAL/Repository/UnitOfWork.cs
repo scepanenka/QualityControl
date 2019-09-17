@@ -59,7 +59,7 @@ namespace Quality.DAL.Repository
 
         public UnitOfWork(DbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException("Context was not supplied");
         }
 
         public async Task SaveAsync()
