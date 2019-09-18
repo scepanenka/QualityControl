@@ -28,7 +28,7 @@ namespace DataAccess.Repository
             _context.Set<T>().Remove(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return _context.Set<T>().ToList();
         }
@@ -46,7 +46,7 @@ namespace DataAccess.Repository
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }

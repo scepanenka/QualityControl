@@ -32,7 +32,7 @@ namespace Quality.DAL.Repository
             get
             {
                 if (_employeesRepository == null)
-                    _employeesRepository = new Repository<Employee>(_context);
+                    _employeesRepository = new EmployeeRepository(_context);
                 return _employeesRepository;
             }
         }

@@ -6,23 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
 
 namespace QualityControl.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly QualityContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
-        public EmployeesController(QualityContext context)
+        public EmployeesController(UnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var qualityContext = _context.Employees.Include(e => e.Position);
-            return View(await qualityContext.ToListAsync());
+            var employees = _unitOfWork.EmployeeRepository.GetAll();
+            return View(employees);
         }
 
         // GET: Employees/Details/5
@@ -33,9 +34,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .Include(e => e.Position)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int)id);
             if (employee == null)
             {
                 return NotFound();
@@ -47,24 +46,21 @@ namespace QualityControl.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name");
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Name");
             return View();
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
+        public async Task<IActionResult> Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                _unitOfWork.EmployeeRepository.Insert(employee);
+                await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
             return View(employee);
         }
 
@@ -76,21 +72,18 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int) id);
             if (employee == null)
             {
                 return NotFound();
             }
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Name", employee.IdPosition);
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
+        public async Task<IActionResult> Edit(int id, Employee employee)
         {
             if (id != employee.Id)
             {
@@ -101,8 +94,8 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.EmployeeRepository.Update(employee);
+                    await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,7 +110,7 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
             return View(employee);
         }
 
@@ -129,9 +122,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .Include(e => e.Position)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int) id);
             if (employee == null)
             {
                 return NotFound();
@@ -145,15 +136,18 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            _unitOfWork.EmployeeRepository.Delete(employee);
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(int id)
         {
-            return _context.Employees.Any(e => e.Id == id);
+            var employee = _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            if (employee != null)
+                return true;
+            return false;
         }
     }
 }

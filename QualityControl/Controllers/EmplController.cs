@@ -6,27 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
-using Quality.DAL.Repository;
 
 namespace QualityControl.Controllers
 {
-    public class PositionsController : Controller
+    public class EmplController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly QualityContext _context;
 
-        public PositionsController(UnitOfWork unitOfWork)
+        public EmplController(QualityContext context)
         {
-            _unitOfWork = unitOfWork;
+            _context = context;
         }
 
-        // GET: Positions
+        // GET: Empl
         public async Task<IActionResult> Index()
         {
-            var positions = await _unitOfWork.PositionRepository.GetAllAsync();
-            return View(positions);
+            var qualityContext = _context.Employees.Include(e => e.Position);
+            return View(await qualityContext.ToListAsync());
         }
 
-        // GET: Positions/Details/5
+        // GET: Empl/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,42 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
-                
-            if (position == null)
+            var employee = await _context.Employees
+                .Include(e => e.Position)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(position);
+            return View(employee);
         }
 
-        // GET: Positions/Create
+        // GET: Empl/Create
         public IActionResult Create()
         {
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id");
             return View();
         }
 
-        // POST: Positions/Create
+        // POST: Empl/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Position position)
+        public async Task<IActionResult> Create([Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.PositionRepository.Insert(position);
-                await _unitOfWork.SaveAsync();
+                _context.Add(employee);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(position);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            return View(employee);
         }
 
-        // GET: Positions/Edit/5
+        // GET: Empl/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +76,23 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
-            if (position == null)
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null)
             {
                 return NotFound();
             }
-            return View(position);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            return View(employee);
         }
 
-        // POST: Positions/Edit/5
+        // POST: Empl/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Position position)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,Patronymic,IdPosition")] Employee employee)
         {
-            if (id != position.Id)
+            if (id != employee.Id)
             {
                 return NotFound();
             }
@@ -98,12 +101,12 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _unitOfWork.PositionRepository.Update(position);
-                    await _unitOfWork.SaveAsync();
+                    _context.Update(employee);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PositionExists(position.Id))
+                    if (!EmployeeExists(employee.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +117,11 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(position);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            return View(employee);
         }
 
-        // GET: Positions/Delete/5
+        // GET: Empl/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,32 +129,31 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
-            if (position == null)
+            var employee = await _context.Employees
+                .Include(e => e.Position)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(position);
+            return View(employee);
         }
 
-        // POST: Positions/Delete/5
+        // POST: Empl/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync(id);
-            _unitOfWork.PositionRepository.Delete(position);
-            await _unitOfWork.SaveAsync();
+            var employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PositionExists(int id)
+        private bool EmployeeExists(int id)
         {
-            var position = _unitOfWork.PositionRepository.GetByIdAsync(id);
-            if (position != null)
-                return true;
-            return false;
+            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }

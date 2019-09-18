@@ -12,19 +12,18 @@ namespace QualityControl.Controllers
 {
     public class OrganizationsController : Controller
     {
-        private readonly QualityContext _context;
         private readonly UnitOfWork _unitOfWork;
 
-        public OrganizationsController(QualityContext context)
+        public OrganizationsController(UnitOfWork unitOfWork)
         {
-            _context = context;
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Organizations
         public async Task<IActionResult> Index()
         {
-            return View(await _unitOfWork.OrganizationRepository.GetAllAsync());
+            var organizations = await _unitOfWork.OrganizationRepository.GetAllAsync();
+            return View(organizations);
         }
 
         // GET: Organizations/Details/5
@@ -35,8 +34,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _context.Organizations
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -56,12 +54,12 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Organization organization)
+        public async Task<IActionResult> Create(Organization organization)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(organization);
-                await _context.SaveChangesAsync();
+                _unitOfWork.OrganizationRepository.Insert(organization);
+                await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(organization);
@@ -75,7 +73,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _context.Organizations.FindAsync(id);
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -88,7 +86,7 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Organization organization)
+        public async Task<IActionResult> Edit(int id, Organization organization)
         {
             if (id != organization.Id)
             {
@@ -99,8 +97,8 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _context.Update(organization);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.OrganizationRepository.Update(organization);
+                    await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,8 +124,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _context.Organizations
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -141,15 +138,18 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var organization = await _context.Organizations.FindAsync(id);
-            _context.Organizations.Remove(organization);
-            await _context.SaveChangesAsync();
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
+            _unitOfWork.OrganizationRepository.Delete(organization);
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrganizationExists(int id)
         {
-            return _context.Organizations.Any(e => e.Id == id);
+            var organization = _unitOfWork.OrganizationRepository.GetByIdAsync(id);
+            if (organization != null)
+                return true;
+            return false;
         }
     }
 }
