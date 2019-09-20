@@ -58,11 +58,12 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdOrganization,IdEmployee,DateReceipt,DateExecution,Number")] Order order)
+        public async Task<IActionResult> Create(Order order)
         {
             if (ModelState.IsValid)
             {
                 order.Id = Guid.NewGuid();
+                order.DateReceipt = DateTime.Now;
                 _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,7 +96,7 @@ namespace QualityControl.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,IdOrganization,IdEmployee,DateReceipt,DateExecution,Number")] Order order)
+        public async Task<IActionResult> Edit(Guid id, Order order)
         {
             if (id != order.Id)
             {

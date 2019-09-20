@@ -68,6 +68,7 @@
     <Build Include="ObjectsTypes.sql" />
     <Build Include="Objects.sql" />
     <Build Include="OrdersObjects.sql" />
+    <Build Include="OrdersQuality.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TestDB.refactorlog" />

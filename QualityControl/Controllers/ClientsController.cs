@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
 
 namespace QualityControl.Controllers
 {
     public class ClientsController : Controller
     {
         private readonly QualityContext _context;
-
+        
         public ClientsController(QualityContext context)
         {
             _context = context;

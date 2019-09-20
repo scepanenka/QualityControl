@@ -12,7 +12,6 @@ namespace QualityControl
 {
     public class Startup
     {
-        private QualityContext _qualityContext;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

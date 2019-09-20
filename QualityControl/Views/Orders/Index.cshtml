@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.DateReceipt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateExecution)
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateExecution))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Number)
