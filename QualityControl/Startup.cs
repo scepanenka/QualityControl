@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace QualityControl
             });
 
             services.AddDbContext<QualityContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:QualityDB"]));
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<UnitOfWork>(x=> new UnitOfWork(x.GetRequiredService<QualityContext>()));
         }

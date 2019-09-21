@@ -2,20 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quality.DAL.Entities;
+using Quality.DAL.Repository;
+using QualityControl.ViewModels;
 
 namespace QualityControl.Controllers
 {
     public class OrdersController : Controller
     {
         private readonly QualityContext _context;
+        private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public OrdersController(QualityContext context)
+        public OrdersController(QualityContext context, UnitOfWork unitOfWork, IMapper mapper)
         {
             _context = context;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+
+        public IActionResult List()
+        {
+            var qualityContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
+            var orders = _mapper.ProjectTo<OrderViewModel>(qualityContext);
+            return View(orders);
         }
 
         // GET: Orders
