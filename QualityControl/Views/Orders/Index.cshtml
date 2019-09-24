@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Quality.DAL.Entities.Order>
+﻿@model IEnumerable<QualityControl.ViewModels.OrderViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders";
 }
 
 <h2>Index</h2>
@@ -43,10 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Employee.Id)
+                @Html.DisplayFor(modelItem => item.Employee)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Organization.Id)
+                @Html.DisplayFor(modelItem => item.Organization)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

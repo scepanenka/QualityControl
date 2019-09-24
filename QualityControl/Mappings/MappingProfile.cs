@@ -15,10 +15,6 @@ namespace QualityControl.Mappings
             CreateMap<Order, OrderViewModel>()
                 .ForMember(dest => dest.Employee, source => source.MapFrom(src => src.Employee.Surname + " " + src.Employee.Name))
                 .ForMember(dest => dest.Organization, source => source.MapFrom(src => src.Organization.Name));
-//                .ForMember(dest => dest.Id, source => source.MapFrom(src => src.Id))
-//                .ForMember(dest => dest.Number, source => source.MapFrom(src => src.Number))
-//                .ForMember(dest => dest.DateReceipt, source => source.MapFrom(src => src.DateReceipt))
-//                .ForMember(dest => dest.DateExecution, source => source.MapFrom(src => src.DateExecution));
         }
     }
 }

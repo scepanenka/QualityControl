@@ -1,4 +1,6 @@
 syntax: glob
+
+*.dbmdl
 *.suo
 *.obj
 *.pdb

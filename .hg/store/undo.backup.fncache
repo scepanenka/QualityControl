@@ -238,3 +238,11 @@ data/QualityControl/Views/Organizations/Delete.cshtml.i
 data/QualityControl/Views/Orders/Create.cshtml.i
 data/QualityControl/wwwroot/lib/jquery/dist/jquery.js.d
 data/readme.md.i
+data/QualityControl/Views/Employees/Edit.cshtml.i
+data/QualityControl/Views/Employees/Details.cshtml.i
+data/Quality.DAL/Entities/Employee.cs.i
+data/QualityControl/Views/Employees/Index.cshtml.i
+data/TestDB/Empoloyees.sql.i
+data/QualityControl/Controllers/EmployeesController.cs.i
+data/QualityControl/Views/Employees/Create.cshtml.i
+data/QualityControl/Views/Employees/Delete.cshtml.i

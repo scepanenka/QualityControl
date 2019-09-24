@@ -26,19 +26,14 @@ namespace QualityControl.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult List()
+        // GET: Orders
+        public async Task<IActionResult> Index()
         {
-            var qualityContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
+            var qualityContext = _unitOfWork.OrderRepository.GetAllOrders();
             var orders = _mapper.ProjectTo<OrderViewModel>(qualityContext);
             return View(orders);
         }
 
-        // GET: Orders
-        public async Task<IActionResult> Index()
-        {
-            var qualityContext = _context.Orders.Include(o => o.Employee).Include(o => o.Organization);
-            return View(await qualityContext.ToListAsync());
-        }
 
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(Guid? id)
