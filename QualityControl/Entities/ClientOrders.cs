@@ -9,7 +9,7 @@ namespace QualityControl.Entities
         public Guid IdClient { get; set; }
         public Guid IdOrder { get; set; }
 
-        public Clients IdClientNavigation { get; set; }
-        public Orders IdOrderNavigation { get; set; }
+        public Clients Client { get; set; }
+        public Orders Order { get; set; }
     }
 }

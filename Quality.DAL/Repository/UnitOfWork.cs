@@ -16,6 +16,7 @@ namespace Quality.DAL.Repository
         private EmployeeRepository _employeesRepository;
         private IRepository<Organization> _orgnizationsRepository;
         private IRepository<Position> _positionsRepository;
+        private IRepository<ClientOrders> _clientOrdersRepository;
 
         public OrderRepository GetOrderRepository
         {
@@ -54,6 +55,17 @@ namespace Quality.DAL.Repository
                 if (_positionsRepository == null)
                     _positionsRepository = new Repository<Position>(_context);
                 return _positionsRepository;
+            }
+        }
+
+
+        public IRepository<ClientOrders> GetClientOrdersRepository
+        {
+            get
+            {
+                if (_clientOrdersRepository == null)
+                    _clientOrdersRepository = new Repository<ClientOrders>(_context);
+                return _clientOrdersRepository;
             }
         }
 

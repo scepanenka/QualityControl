@@ -12,5 +12,7 @@ namespace Quality.DAL.Repository
         EmployeeRepository GetEmployeeRepository { get; }
         IRepository<Organization> GetOrganizationRepository { get; }
         IRepository<Position> GetPositionRepository { get; }
+        IRepository<ClientOrders> GetClientOrdersRepository { get; }
+        
     }
 }
