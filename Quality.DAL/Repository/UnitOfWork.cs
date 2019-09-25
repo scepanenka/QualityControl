@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 
 namespace Quality.DAL.Repository
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private DbContext _context;
         private bool _disposed;
-        private OrdersRepository _ordersRepository;
-        private IRepository<Employee> _employeesRepository;
+        private OrderRepository _ordersRepository;
+        private EmployeeRepository _employeesRepository;
         private IRepository<Organization> _orgnizationsRepository;
         private IRepository<Position> _positionsRepository;
 
-        public OrdersRepository OrderRepository
+        public OrderRepository GetOrderRepository
         {
             get
             {
                 if (_ordersRepository == null)
-                    _ordersRepository = new OrdersRepository(_context);
+                    _ordersRepository = new OrderRepository(_context);
                 return _ordersRepository;
             }
         }
 
-        public IRepository<Employee> EmployeeRepository
+        public EmployeeRepository GetEmployeeRepository
         {
             get
             {
@@ -37,7 +37,7 @@ namespace Quality.DAL.Repository
             }
         }
 
-        public IRepository<Organization> OrganizationRepository
+        public IRepository<Organization> GetOrganizationRepository
         {
             get
             {
@@ -47,7 +47,7 @@ namespace Quality.DAL.Repository
             }
         }
 
-        public IRepository<Position> PositionRepository
+        public IRepository<Position> GetPositionRepository
         {
             get
             {

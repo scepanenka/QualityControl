@@ -8,10 +8,10 @@ using Quality.DAL.Entities;
 
 namespace Quality.DAL.Repository
 {
-    public class OrdersRepository : Repository<Order>
+    public class OrderRepository : Repository<Order>
     {
         private readonly DbContext _context;
-        public OrdersRepository(DbContext dataContext) : base(dataContext)
+        public OrderRepository(DbContext dataContext) : base(dataContext)
         {
             _context = dataContext;
         }

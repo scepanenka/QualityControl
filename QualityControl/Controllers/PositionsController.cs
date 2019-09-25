@@ -22,7 +22,7 @@ namespace QualityControl.Controllers
         // GET: Positions
         public async Task<IActionResult> Index()
         {
-            var positions = await _unitOfWork.PositionRepository.GetAllAsync();
+            var positions = await _unitOfWork.GetPositionRepository.GetAllAsync();
             return View(positions);
         }
 
@@ -34,7 +34,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
+            var position = await _unitOfWork.GetPositionRepository.GetByIdAsync((int)id);
                 
             if (position == null)
             {
@@ -59,7 +59,7 @@ namespace QualityControl.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.PositionRepository.Insert(position);
+                _unitOfWork.GetPositionRepository.Insert(position);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -74,7 +74,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
+            var position = await _unitOfWork.GetPositionRepository.GetByIdAsync((int)id);
             if (position == null)
             {
                 return NotFound();
@@ -98,7 +98,7 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _unitOfWork.PositionRepository.Update(position);
+                    _unitOfWork.GetPositionRepository.Update(position);
                     await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,7 +125,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync((int)id);
+            var position = await _unitOfWork.GetPositionRepository.GetByIdAsync((int)id);
             if (position == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var position = await _unitOfWork.PositionRepository.GetByIdAsync(id);
-            _unitOfWork.PositionRepository.Delete(position);
+            var position = await _unitOfWork.GetPositionRepository.GetByIdAsync(id);
+            _unitOfWork.GetPositionRepository.Delete(position);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PositionExists(int id)
         {
-            var position = _unitOfWork.PositionRepository.GetByIdAsync(id);
+            var position = _unitOfWork.GetPositionRepository.GetByIdAsync(id);
             if (position != null)
                 return true;
             return false;

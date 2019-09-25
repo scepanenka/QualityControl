@@ -22,7 +22,7 @@ namespace QualityControl.Controllers
         // GET: Organizations
         public async Task<IActionResult> Index()
         {
-            var organizations = await _unitOfWork.OrganizationRepository.GetAllAsync();
+            var organizations = await _unitOfWork.GetOrganizationRepository.GetAllAsync();
             return View(organizations);
         }
 
@@ -34,7 +34,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
+            var organization = await _unitOfWork.GetOrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace QualityControl.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.OrganizationRepository.Insert(organization);
+                _unitOfWork.GetOrganizationRepository.Insert(organization);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -73,7 +73,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
+            var organization = await _unitOfWork.GetOrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _unitOfWork.OrganizationRepository.Update(organization);
+                    _unitOfWork.GetOrganizationRepository.Update(organization);
                     await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,7 +124,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
+            var organization = await _unitOfWork.GetOrganizationRepository.GetByIdAsync((int)id);
             if (organization == null)
             {
                 return NotFound();
@@ -138,15 +138,15 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync((int)id);
-            _unitOfWork.OrganizationRepository.Delete(organization);
+            var organization = await _unitOfWork.GetOrganizationRepository.GetByIdAsync((int)id);
+            _unitOfWork.GetOrganizationRepository.Delete(organization);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrganizationExists(int id)
         {
-            var organization = _unitOfWork.OrganizationRepository.GetByIdAsync(id);
+            var organization = _unitOfWork.GetOrganizationRepository.GetByIdAsync(id);
             if (organization != null)
                 return true;
             return false;

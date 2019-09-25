@@ -8,7 +8,7 @@ using Quality.DAL.Entities;
 
 namespace Quality.DAL.Repository
 {
-    class EmployeeRepository : Repository<Employee>
+    public class EmployeeRepository : Repository<Employee>
     {
         private DbContext _context;
         public EmployeeRepository(DbContext dataContext) : base(dataContext)

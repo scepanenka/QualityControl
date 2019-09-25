@@ -20,7 +20,7 @@ namespace QualityControl.Controllers
         // GET: Employees
         public IActionResult Index()
         {
-            var employees = _unitOfWork.EmployeeRepository.GetAll();
+            var employees = _unitOfWork.GetEmployeeRepository.GetAll();
             return View(employees);
         }
 
@@ -32,7 +32,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int)id);
+            var employee = await _unitOfWork.GetEmployeeRepository.GetByIdAsync((int)id);
             if (employee == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace QualityControl.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Name");
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -54,11 +54,11 @@ namespace QualityControl.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.EmployeeRepository.Insert(employee);
+                _unitOfWork.GetEmployeeRepository.Insert(employee);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
             return View(employee);
         }
 
@@ -70,12 +70,12 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int) id);
+            var employee = await _unitOfWork.GetEmployeeRepository.GetByIdAsync((int) id);
             if (employee == null)
             {
                 return NotFound();
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Name", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Name", employee.IdPosition);
             return View(employee);
         }
 
@@ -92,7 +92,7 @@ namespace QualityControl.Controllers
             {
                 try
                 {
-                    _unitOfWork.EmployeeRepository.Update(employee);
+                    _unitOfWork.GetEmployeeRepository.Update(employee);
                     await _unitOfWork.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -108,7 +108,7 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.PositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
             return View(employee);
         }
 
@@ -120,7 +120,7 @@ namespace QualityControl.Controllers
                 return NotFound();
             }
 
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync((int) id);
+            var employee = await _unitOfWork.GetEmployeeRepository.GetByIdAsync((int) id);
             if (employee == null)
             {
                 return NotFound();
@@ -134,15 +134,15 @@ namespace QualityControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
-            _unitOfWork.EmployeeRepository.Delete(employee);
+            var employee = await _unitOfWork.GetEmployeeRepository.GetByIdAsync(id);
+            _unitOfWork.GetEmployeeRepository.Delete(employee);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(int id)
         {
-            var employee = _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            var employee = _unitOfWork.GetEmployeeRepository.GetByIdAsync(id);
             if (employee != null)
                 return true;
             return false;

@@ -29,7 +29,7 @@ namespace QualityControl.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var qualityContext = _unitOfWork.OrderRepository.GetAllOrders();
+            var qualityContext = _unitOfWork.GetOrderRepository.GetAllOrders();
             var orders = _mapper.ProjectTo<OrderViewModel>(qualityContext);
             return View(orders);
         }
