@@ -10,7 +10,7 @@ namespace Quality.DAL.Repository
 {
     public class UnitOfWork : IDisposable, IUnitOfWork
     {
-        private DbContext _context;
+        private readonly DbContext _context;
         private bool _disposed;
         private OrderRepository _ordersRepository;
         private EmployeeRepository _employeesRepository;
