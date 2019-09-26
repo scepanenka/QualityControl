@@ -64,11 +64,14 @@
     <Build Include="Empoloyees.sql" />
     <Build Include="Positions.sql" />
     <Build Include="Clients.sql" />
-    <Build Include="ClientOrders.sql" />
+    <Build Include="OrdersClients.sql" />
     <Build Include="ObjectsTypes.sql" />
     <Build Include="Objects.sql" />
     <Build Include="OrdersObjects.sql" />
     <Build Include="OrdersQuality.sql" />
+    <Build Include="OrdersOperations.sql" />
+    <Build Include="OperationsQuality.sql" />
+    <Build Include="Documents.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TestDB.refactorlog" />

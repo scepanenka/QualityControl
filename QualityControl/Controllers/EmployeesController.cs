@@ -58,7 +58,7 @@ namespace QualityControl.Controllers
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.PositionId);
             return View(employee);
         }
 
@@ -75,7 +75,7 @@ namespace QualityControl.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Name", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Name", employee.PositionId);
             return View(employee);
         }
 
@@ -108,7 +108,7 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.IdPosition);
+            ViewData["IdPosition"] = new SelectList(_unitOfWork.GetPositionRepository.GetAll(), "Id", "Id", employee.PositionId);
             return View(employee);
         }
 

@@ -78,8 +78,8 @@ namespace QualityControl.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.EmployeeId);
+            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.OrganizationId);
             return View(order);
         }
 
@@ -96,8 +96,8 @@ namespace QualityControl.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.EmployeeId);
+            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.OrganizationId);
             return View(order);
         }
 
@@ -133,8 +133,8 @@ namespace QualityControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.IdEmployee);
-            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.IdOrganization);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", order.EmployeeId);
+            ViewData["IdOrganization"] = new SelectList(_context.Organizations, "Id", "Id", order.OrganizationId);
             return View(order);
         }
 

@@ -7,7 +7,7 @@
     [Address] NVARCHAR(200) NULL, 
     [PersonalNumber] NVARCHAR(20) NULL, 
     [PhoneNumber] CHAR(20) NULL, 
-    [TypeClient] INT NULL, 
+    [TypeClientId] INT NULL, 
     [UNN] NCHAR(12) NULL, 
     [BothDate] DATETIME2 NULL, 
     [Information] NVARCHAR(500) NULL 

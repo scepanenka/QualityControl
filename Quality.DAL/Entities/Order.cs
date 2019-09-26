@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quality.DAL.Entities
 {
-    public partial class Order
+    public class Order
     {
         public Order()
         {
@@ -16,9 +16,9 @@ namespace Quality.DAL.Entities
         [Key]
         public Guid Id { get; set; }
         [ForeignKey("Organization")]
-        public int IdOrganization { get; set; }
+        public int OrganizationId { get; set; }
         [ForeignKey("Employee")]
-        public int IdEmployee { get; set; }
+        public int EmployeeId { get; set; }
         public DateTime DateReceipt { get; set; }
         public DateTime DateExecution { get; set; }
         public string Number { get; set; }

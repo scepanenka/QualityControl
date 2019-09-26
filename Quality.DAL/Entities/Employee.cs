@@ -19,7 +19,7 @@ namespace Quality.DAL.Entities
         public string Name { get; set; }
         public string Patronymic { get; set; }
         [ForeignKey("Position")]
-        public int IdPosition { get; set; }
+        public int PositionId { get; set; }
         public Position Position { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
